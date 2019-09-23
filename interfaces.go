@@ -1,0 +1,57 @@
+package main
+
+import (
+	"fmt"
+)
+
+type person struct {
+	first string
+	last string
+}
+
+type secretAgent struct {
+	person
+	ltk bool
+}
+
+func (s secretAgent) speak() {
+	fmt.Println("I am", s.first, s.last)
+}
+
+func (p person) speak() {
+	fmt.Println("i am,", p.first, p.last)
+}
+
+//connecting types that have method speak connected to them aka secretAgent
+//a value can be of more than one type
+type human interface {
+	speak()
+}
+
+func bar(h human){
+	fmt.Println("I called human")
+}
+
+func main() {
+	sa := secretAgent{
+		person: person{
+			"james",
+			"bond",
+		},
+		ltk: true,
+	}
+
+	p1 := person{
+		first: "doctor",
+		last: "yes",
+	}
+
+	sa.speak()
+	p1.speak()
+	fmt.Printf("%T\n", sa)
+	fmt.Println(p1)
+	bar(p1)
+	bar(sa)
+
+	//polymorphism allows method to take in multiple differnt types
+}
